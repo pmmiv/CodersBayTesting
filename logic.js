@@ -145,6 +145,17 @@ database.ref("/bidderData").on("value", function(snapshot) {
         initApp()
       });
 // --------------------------------------------------------------
+
+$('#signOut').click(function(){
+  firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+  }, function(error) {
+    console.error('Sign Out Error', error);
+  });
+})
+
+// --------------------------------------------------------------
+
 // Whenever a user clicks the click button
 $("#submit-bid").on("click", function(event) {
   event.preventDefault();
