@@ -69,6 +69,10 @@ var initialBidder = "No one :-(";
 var highPrice = initialBid;
 var highBidder = initialBidder;
 
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})
+
 // --------------------------------------------------------------
 // At the initial load, get a snapshot of the current data.
 database.ref("/bidderData").on("value", function(snapshot) {
