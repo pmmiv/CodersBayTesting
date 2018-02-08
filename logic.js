@@ -65,7 +65,8 @@ connectionsRef.on("value", function(snap) {
 var actUser = {};
 
 $('#user').click(function(){
-  console.log(actUser)
+  console.log(actUser);
+  console.log(actUser.uid)
 })
 
 // ------------------------------------
