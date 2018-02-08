@@ -62,7 +62,7 @@ connectionsRef.on("value", function(snap) {
   $("#connected-viewers").text(snap.numChildren());
 });
 
-var actUser ;
+var actUser = {};
 
 $('#user').click(function(){
   console.log(actUser)
@@ -119,6 +119,7 @@ database.ref("/bidderData").on("value", function(snapshot) {
 // --------------------------------------------------------------
  initApp = function() {
         firebase.auth().onAuthStateChanged(function(user) {
+          console.log(user);
           actUser = user;
           if (user) {
             // User is signed in.
