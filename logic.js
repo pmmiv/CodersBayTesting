@@ -280,7 +280,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             newImage.attr("src", imageArray[i]);
             
             cardBody.append(cardTitle);
-            
+
             newCard.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>")
             
             cardFront.append(newImage);
@@ -392,8 +392,8 @@ $('#signOut').click(function(){
 // bookmarking cards
 $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
-  console.log(this);
-  var storeCard = this.cardNo();
+  console.log(this.dataset.cardno);
+  // var storeCard = this.dataset.cardno;
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
       storeCard: storeCard,
