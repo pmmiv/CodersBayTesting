@@ -23,6 +23,8 @@ var uSignIn ;
 
 var actUser = {};
 
+var actCards = [];
+
 boxEnterTimeline
   .add({
     targets: "#title",
@@ -279,7 +281,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             
             cardBody.append(cardTitle);
 
-            newCard.append("<button class='btn bookmark'><i class='fas fa-utensils'></i></button>")
+            newCard.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>")
             
             cardFront.append(newImage);
             
@@ -290,9 +292,12 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             newCard.append(cardBack);
             // newContainer.append(newCard);
             $(".outputArea").append(newCard);
+            // console.log(newCard);
+            actCards.push(newCard[0].outerHTML);
           }
 
-        console.log("finished iteration");
+        console.log('========below me is the actCard===========')
+        console.log(actCards);
      
        
       });
@@ -387,8 +392,11 @@ $('#signOut').click(function(){
 // bookmarking cards
 $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
+  console.log(this);
+  var storeCard = this.cardNo();
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
+      storeCard: storeCard,
       success: "You successfully pushed something to an individual user's bookmark" 
     })
     alert("bookmarked!");
