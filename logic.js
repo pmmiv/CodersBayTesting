@@ -207,7 +207,7 @@ $("#inputBtn").on("click", function(event) {
   }).then(function(myObj){
 
     newObj = myObj.matches;
-    console.log(newObj);
+    // console.log(newObj);
 
 
     // set the count value to the count property in the object
@@ -283,7 +283,7 @@ $("#inputBtn").on("click", function(event) {
 
 // ============USER AUTHENTICATION============================
   var uiConfig = {
-    signInSuccess: function(){return false},
+    signInSuccess: function(){return true},
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -354,12 +354,12 @@ $(document).on('click', '.bookmark', function () {
     alert("Sign in to bookmark recipes!");
 }})
 
-$('#signInBtn').click(function(event){
-  event.preventDefault()
-  if (uSignIn) {
-    $('#exampleModal').css('display', 'none')
-    firebase.auth().signOut().then(function() {
-    console.log('Signed Out');
-  }) } else {
-    $('#exampleModal').css('display', 'block')
-  }})
+// $('#signInBtn').click(function(event){
+//   event.preventDefault()
+//   if (uSignIn) {
+//     $('#exampleModal').css('display', 'none')
+//     firebase.auth().signOut().then(function() {
+//     console.log('Signed Out');
+//   }) } else {
+//     $('#exampleModal').css('display', 'block')
+//   }})
