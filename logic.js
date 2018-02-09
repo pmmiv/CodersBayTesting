@@ -305,7 +305,7 @@ $("#inputBtn").on("click", function(event) {
   
  initApp = function() {
         firebase.auth().onAuthStateChanged(function(user) {
-          if (uSignIn) {
+          if (user) {
             // show sign out
             $('#signInBtn').css("display", "none");
             $('#signOut').css("display", "inline");
