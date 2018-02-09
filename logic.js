@@ -123,6 +123,7 @@ var allergyRequest = "";
 var dietRequest = "";
 var isUnClickedAll=false;
 var isUnClickedDiet=false;
+var newOBj = {};
 
 //went ahead and comment out v1 of the checkbox for the allergy and diet
 //got the checkbox for the submit button to work
@@ -205,8 +206,8 @@ $("#inputBtn").on("click", function(event) {
   //once myObj object returns, pass in myObj to the next function
   }).then(function(myObj){
 
-    var newObj = myObj.matches;
-    // console.log(newObj);
+    newObj = myObj.matches;
+    console.log(newObj);
 
 
     // set the count value to the count property in the object
@@ -282,7 +283,7 @@ $("#inputBtn").on("click", function(event) {
 
 // ============USER AUTHENTICATION============================
   var uiConfig = {
-    signInSuccessUrl: "http://pmmiv.com/CodersBayTesting/",
+    signInSuccess: function(){return false},
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -342,6 +343,7 @@ $('#signOut').click(function(){
 $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
     var bomkCard = this;
+    console.log(this);
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
       success: "You successfully pushed something to an individual user's bookmark",
