@@ -134,6 +134,10 @@ p
 	overflow: hidden;
 }
 
+#signOut, #signInBtn {
+	display: none;
+}
+
 .card > img
 {
 	max-height: 100%;

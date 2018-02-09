@@ -283,7 +283,7 @@ $("#inputBtn").on("click", function(event) {
 
 // ============USER AUTHENTICATION============================
   var uiConfig = {
-    signInSuccess: function(){return true},
+    signInSuccess: function(){return false},
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -301,6 +301,13 @@ $("#inputBtn").on("click", function(event) {
   
  initApp = function() {
         firebase.auth().onAuthStateChanged(function(user) {
+          if (uSignIn) {
+            // show sign out
+            $('#signOut').css("display", "inline");
+          } else {
+            // show sign in
+            $('#signInBtn').css("display", "inline");
+          }
           actUser = user;
           if (user) {
             // User is signed in.
