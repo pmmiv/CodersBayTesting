@@ -171,7 +171,7 @@ $("#inputBtn").on("click", function(event) {
     //input has been clicked and concat each diet together
     var restrict = $(this).val().trim();
     dietRequest += (dietString + restrict);
-    console.log("diet", dietRequest);
+    // console.log("diet", dietRequest);
    });
 
   //this is to create the filter for the specific allergy
@@ -181,7 +181,7 @@ $("#inputBtn").on("click", function(event) {
     //input has been clicked and concat each allergy together
     var restrict = $(this).val().trim();
     allergyRequest += (restrictString + restrict);
-    console.log("allergy", allergyRequest);
+    // console.log("allergy", allergyRequest);
   });
 
 
@@ -206,7 +206,7 @@ $("#inputBtn").on("click", function(event) {
   }).then(function(myObj){
 
     var newObj = myObj.matches;
-    console.log(newObj);
+    // console.log(newObj);
 
 
     // set the count value to the count property in the object
@@ -341,9 +341,11 @@ $('#signOut').click(function(){
 // bookmarking cards
 $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
+    var bomkCard = this;
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
-      success: "You successfully pushed something to an individual user's bookmark" 
+      success: "You successfully pushed something to an individual user's bookmark",
+      card: bomkCard 
     })
     alert("bookmarked!");
   } else {
