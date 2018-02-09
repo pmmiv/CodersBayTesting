@@ -10,6 +10,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
+var database = firebase.database();
+
 //=======anime animation====
 var boxEnterTimeline = anime.timeline({
   autoplay: true
@@ -392,8 +394,8 @@ $('#signOut').click(function(){
 // bookmarking cards
 $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
-  console.log(this.dataset.cardno);
-  // var storeCard = this.dataset.cardno;
+  // console.log(this.dataset.cardno);
+  var storeCard = actCards[this.dataset.cardno];
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
       storeCard: storeCard,
