@@ -280,7 +280,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             newImage.attr("src", imageArray[i]);
             
             cardBody.append(cardTitle);
-
+            
             newCard.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>")
             
             cardFront.append(newImage);
