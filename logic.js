@@ -312,6 +312,7 @@ $("#inputBtn").on("click", function(event) {
           } else {
             // show sign in
             $('#signOut').css("display", "none");
+            $('#signInBtn').css("display", "inline");
           }
           actUser = user;
           if (user) {
