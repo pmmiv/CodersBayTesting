@@ -13,117 +13,297 @@ firebase.initializeApp(config);
 // Create a variable to reference the database.
 var database = firebase.database();
 
-// -----------------------------
- // FirebaseUI config.
+//=======anime animation====
+var boxEnterTimeline = anime.timeline({
+  autoplay: true
+})
+var boxExitTimeline = anime.timeline({
+  autoplay: false
+})
+var easing = "linear";
+
+var uSignIn ;
+
+var actUser = {};
+
+boxEnterTimeline
+  .add({
+    targets: "#title",
+    duration: 1000,
+    opacity: "1",
+    easing
+  })
+
+boxExitTimeline
+  .add({
+    targets: "#initBox",
+    // width: 0,
+    opacity: "0",
+    translateX: 200,
+    duration: 750,
+    easing
+  })
+  .add({    
+    targets: ".slate",
+    duration: 1000,
+    height: 0,
+    // opacity: 0,
+    easing
+  }).add({
+    targets: ".slate",
+    duration: 10,
+    translateY: -10000
+  });
+  
+$(".initSub").click(function(event) {
+  event.preventDefault();
+  boxExitTimeline.play();
+})
+
+// ========conversion table logic====
+function convert (a, b, c) {
+  console.log(a, b, c)
+  var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  var builtString = "https://neutrinoapi.com/convert?from-value="+a+"&from-type="+b+"&to-type="+c+"&userId=PMMIV&apiKey=lxAaqP7fkM6ZjKHg0fnvmkF192s1vmihtuGtY381Ls6xHsNs";
+  console.log(builtString);
+  $.get(proxyUrl + builtString, function(response) {
+    console.log(response);
+    var noOutput = response.result
+    $('.results').text(a + " " + b + " = " + noOutput + " " + c);
+  }).fail(function(error){
+    console.log(error);
+    $('.results').text("I'm sorry. We may have exceeded our conversion limit today.");
+  })
+};
+
+$('.convertSub').click(function(event) {
+  event.preventDefault();
+  var noInput = $('#noInput').val();
+  var typeInput = $('#typeInput').val();
+  var typeOutput = $('#typeOutput').val();
+  convert(noInput, typeInput, typeOutput);
+});
+
+// List of diet/allergy
+// --------------------
+// 396^Dairy-Free
+// 393^Gluten-Free
+// 394^Peanut-Free
+// 400^Soy-Free
+// 397^Egg-Free
+// 401^Sulfite-Free
+// 395^Tree Nut-Free
+// 390^Pescetarian
+// 386^Vegan
+// 403^Paleo
+// 387^Lacto-ovo vegetarian
+
+
+//creates an array of recipe id's that matches with the user input
+var recipeArray = [];
+// create initial array for titles of recipes
+var titleArray = [];
+// create initial array for image_urls
+var imageArray = [];
+
+var ingredArray = [];
+
+var restrictArray = [];
+
+var imgStr;
+// create a varaible to store the amount of recipes returned from api
+var count = 0;
+
+var restrictString = "&allowedAllergy[]=";
+
+var dietString = "&allowedDiet[]=";
+
+var allergyRequest = "";
+
+var dietRequest = "";
+var isUnClickedAll=false;
+var isUnClickedDiet=false;
+
+//went ahead and comment out v1 of the checkbox for the allergy and diet
+//got the checkbox for the submit button to work
+
+/*
+// when a check button is clicked and it has the allergy class, add to allergyRequest.
+$(".foodOptions").on("click", ".allergy", function()
+{
+$.each($("input:checked")
+
+
+  var restrict = $(this).val().trim();
+  allergyRequest += (restrictString + restrict);
+  console.log("allergy", allergyRequest);
+
+});
+
+// when a check button is clicked and it has the diet class, add to dietRequest.
+$(".foodOptions").on("click", ".diet", function(){
+  var restrict = $(this).val().trim();
+  dietRequest += (dietString + restrict);
+  console.log("diet", dietRequest);
+});
+*/
+
+// call function when submit button is pressed
+$("#inputBtn").on("click", function(event) {
+  // prevent page refresh when submit is pressed
+  event.preventDefault();  
+  // create initial array for recipe_ids
+  recipeArray = [];
+  // create initial array for titles of recipes
+  titleArray = [];
+  // create initial array for image_urls
+  imageArray = [];
+
+  ingredArray =[];
+  // create a varaible to store the amount of recipes returned from api
+  count = 0;
+
+
+  //version 2 of the checkbox
+  //this is to create the filter for the specific diet
+  $("input[class=diet]:checked").each(function() {
+    //once the user clicks on the submit button, go ahead and check what
+    //input has been clicked and concat each diet together
+    var restrict = $(this).val().trim();
+    dietRequest += (dietString + restrict);
+    console.log("diet", dietRequest);
+   });
+
+  //this is to create the filter for the specific allergy
+  $("input[class=allergy]:checked").each(function() 
+  {
+    //once the user clicks on the submit button, go ahead and check what
+    //input has been clicked and concat each allergy together
+    var restrict = $(this).val().trim();
+    allergyRequest += (restrictString + restrict);
+    console.log("allergy", allergyRequest);
+  });
+
+
+
+  $(".outputArea").empty();
+
+//  // grab user's input value and store in new variable
+  var userInput = $("#foodSearch").val().trim();
+  console.log(userInput);
+
+  // website url for ajax to pull from
+  var myURL="https://api.yummly.com/v1/api/recipes?_app_id=87e47442&_app_key=11e4aadcc3dddb10fa26ae2968e1ce03&q=" + userInput + allergyRequest + dietRequest + "&maxResult=12";
+
+  console.log(myURL);
+
+   //calling the ajax class to pass the url, and the
+   //GET method to return the myObj object
+  $.ajax({
+     url:myURL,
+     method:"GET"
+  //once myObj object returns, pass in myObj to the next function
+  }).then(function(myObj){
+
+    var newObj = myObj.matches;
+    console.log(newObj);
+
+
+    // set the count value to the count property in the object
+    count = newObj.length;
+
+    // initiate a for loop to store recipe_id property and image_url property into their arrays
+    for (var i = 0; i < count; i++) {
+      recipeArray.push(newObj[i].id);
+      imageArray.push(newObj[i].imageUrlsBySize[90]);
+      ingredArray.push(newObj[i].ingredients);
+      titleArray.push(newObj[i].recipeName);
+    }
+    console.log(ingredArray);
+
+    // create a for-loop to pull, resize, and reassign photos in the image array
+    for (var j = 0; j < imageArray.length; j++) {
+      imageArray[j] = imageArray[j].toString().replace("s90", "s500");
+    }
+    // for (var i = 0; i < ingredArray.length; i++) {
+    //   ingredArray[i].forEach(function(item){
+    //   console.log(item);
+    //   })
+    // };
+
+
+    console.log(imageArray);
+    $("#outputArea").on("click", "front")
+    // initiate another for loop to display image properties
+    for (var i = 0; i < imageArray.length; i++) 
+    {
+      // var newContainer = $("<div class='container'");
+      var newCard = $("<div class='card' style='width: 18rem;'>");
+      var cardFront = $("<div class='front'>")
+      var newImage = $("<img class='card-img-top'>");
+      var cardBody = $("<div class='card-body'>");
+      var cardTitle = $("<h5 class='card-title'>");
+      var cardBack = $("<div class='back'>");
+      var cardList = $("<ul class='listOfIngred'>");
+      var listItem = $("<li class='item'>");
+      
+      ingredArray[i].forEach(function(item){
+        var store = listItem.text(item);
+        $(".listOfIngred").append(store);
+        console.log(cardList);
+        
+      });
+      
+      cardBack.append(listItem);
+      
+      console.log(cardBack);
+
+      cardTitle.text(titleArray[i]);
+      
+      newImage.attr("src", imageArray[i]);
+      
+      cardBody.append(cardTitle);
+
+      newCard.append("<button class='btn bookmark'><i class='fas fa-utensils'></i></button>")
+      
+      cardFront.append(newImage);
+      
+      cardFront.append(cardBody);
+
+      newCard.append(cardFront);
+      
+      newCard.append(cardBack);
+      // newContainer.append(newCard);
+      $(".outputArea").append(newCard);
+    }
+  });
+});
+
+
+// ============USER AUTHENTICATION============================
   var uiConfig = {
-    signInSuccessUrl: "http://pmmiv.com/CodersBayTesting",
+    signInSuccessUrl: false,
     signInOptions: [
       // Leave the lines as is for the providers you want to offer your users.
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.EmailAuthProvider.PROVIDER_ID
     ],
     // Terms of service url.
-    tosUrl: '<your-tos-url>'
+    tosUrl: '<your-tos-url>',
+    signInFlow: 'popup'
   };
 
   // Initialize the FirebaseUI Widget using Firebase.
   var ui = new firebaseui.auth.AuthUI(firebase.auth());
   // The start method will wait until the DOM is loaded.
   ui.start('#firebaseui-auth-container', uiConfig);
-// -----------------------------
-
-// connectionsRef references a specific location in our database.
-// All of our connections will be stored in this directory.
-var connectionsRef = database.ref("/connections");
-
-// '.info/connected' is a special location provided by Firebase that is updated
-// every time the client's connection state changes.
-// '.info/connected' is a boolean value, true if the client is connected and false if they are not.
-var connectedRef = database.ref(".info/connected");
-
-// When the client's connection state changes...
-connectedRef.on("value", function(snap) {
-
-  // If they are connected..
-  if (snap.val()) {
-
-    // Add user to the connections list.
-    var con = connectionsRef.push(true);
-    // Remove user from the connection list when they disconnect.
-    con.onDisconnect().remove();
-  }
-});
-
-// When first loaded or when the connections list changes...
-connectionsRef.on("value", function(snap) {
-
-  // Display the viewer count in the html.
-  // The number of online users is the number of children in the connections list.
-  $("#connected-viewers").text(snap.numChildren());
-});
-
-var actUser = {};
-
-$('#user').click(function(){
-  console.log(actUser);
-  console.log(actUser.uid)
-})
-
-// ------------------------------------
-// Initial Values
-var initialBid = 0;
-var initialBidder = "No one :-(";
-var highPrice = initialBid;
-var highBidder = initialBidder;
-
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
-
-// --------------------------------------------------------------
-// At the initial load, get a snapshot of the current data.
-database.ref("/bidderData").on("value", function(snapshot) {
-
-  // If Firebase has a highPrice and highBidder stored (first case)
-  if (snapshot.child("highBidder").exists() && snapshot.child("highPrice").exists()) {
-
-    // Set the initial variables for highBidder equal to the stored values.
-    highBidder = snapshot.val().highBidder;
-    highPrice = parseInt(snapshot.val().highPrice);
-
-    // Change the HTML to reflect the initial value
-    $("#highest-bidder").text(snapshot.val().highBidder);
-    $("#highest-price").text("$" + snapshot.val().highPrice);
-
-    // Print the initial data to the console.
-    console.log(snapshot.val().highBidder);
-    console.log(snapshot.val().highPrice);
-  }
-
-  // Keep the initial variables for highBidder equal to the initial values
-  else {
-
-    // Change the HTML to reflect the initial value
-    $("#highest-bidder").text(highBidder);
-    $("#highest-price").text("$" + highPrice);
-    // Print the initial data to the console.
-    console.log("Current High Price");
-    console.log(highBidder);
-    console.log(highPrice);
-  }
-
-// If any errors are experienced, log them to console.
-}, function(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-});
-
-// --------------------------------------------------------------
+  
  initApp = function() {
         firebase.auth().onAuthStateChanged(function(user) {
-          console.log(user);
           actUser = user;
           if (user) {
             // User is signed in.
+            uSignIn = true;
             var displayName = user.displayName;
             var email = user.email;
             var emailVerified = user.emailVerified;
@@ -133,17 +313,13 @@ database.ref("/bidderData").on("value", function(snapshot) {
             var providerData = user.providerData;
             user.getIdToken().then(function(accessToken) {
               document.getElementById('sign-in-status').textContent = 'Signed in';
-              document.getElementById('sign-in').textContent = 'Sign out';
-              document.getElementById('account-details').textContent = JSON.stringify({
-                displayName: displayName,
-                uid: uid,
-              }, null, '  ');
+              document.getElementById('sign-in').textContent = 'Sign Out';
             });
           } else {
             // User is signed out.
+            uSignIn = false;
             document.getElementById('sign-in-status').textContent = 'Signed out';
-            document.getElementById('sign-in').textContent = 'Sign in';
-            document.getElementById('account-details').textContent = 'null';
+            document.getElementById('sign-in').textContent = 'Sign In';
           }
         }, function(error) {
           console.log(error);
@@ -153,7 +329,6 @@ database.ref("/bidderData").on("value", function(snapshot) {
       window.addEventListener('load', function() {
         initApp()
       });
-// --------------------------------------------------------------
 
 $('#signOut').click(function(){
   firebase.auth().signOut().then(function() {
@@ -163,48 +338,24 @@ $('#signOut').click(function(){
   });
 })
 
-// --------------------------------------------------------------
+// bookmarking cards
+$(document).on('click', '.bookmark', function () {
+  // event.preventDefault();
+  if (uSignIn) {
+    database.ref("/users/" + actUser.uid).push({
+      success: "You successfully pushed something to an individual user's bookmark" 
+    })
+    alert("bookmarked!");
+  } else {
+    alert("Sign in to bookmark recipes!");
+}})
 
-// Whenever a user clicks the click button
-$("#submit-bid").on("click", function(event) {
-  event.preventDefault();
-
-  // Get the input values
-  var bidderName = $("#bidder-name").val().trim();
-  var bidderPrice = parseInt($("#bidder-price").val().trim());
-
-  // Log the Bidder and Price (Even if not the highest)
-  console.log(bidderName);
-  console.log(bidderPrice);
-
-  if (bidderPrice > highPrice) {
-
-    // Alert
-    alert("You are now the highest bidder.");
-
-    // Save the new price in Firebase
-    database.ref("/bidderData").set({
-      highBidder: bidderName,
-      highPrice: bidderPrice
-    });
-
-    // Log the new High Price
-    console.log("New High Price!");
-    console.log(bidderName);
-    console.log(bidderPrice);
-
-    // Store the new high price and bidder name as a local variable (could have also used the Firebase variable)
-    highBidder = bidderName;
-    highPrice = parseInt(bidderPrice);
-
-    // Change the HTML to reflect the new high price and bidder
-    $("#highest-bidder").text(bidderName);
-    $("#highest-price").text("$" + bidderPrice);
-  }
-  else {
-
-    // Alert
-    alert("Sorry that bid is too low. Try again.");
-  }
-
-});
+$('#signInBtn').click(function(event){
+  event.preventDefault()
+  if (uSignIn) {
+    $('#exampleModal').css('display', 'none')
+    firebase.auth().signOut().then(function() {
+    console.log('Signed Out');
+  }) } else {
+    $('#exampleModal').css('display', 'block')
+  }})
