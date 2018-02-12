@@ -418,6 +418,7 @@ $('#bkmkBtn').click(function(){
             console.log(newBkmkCards[key].storeId);
             
             var newCard = $(newBkmkCards[key].storeCard);
+            $(".outputArea").append(newCard);
         }
     }
   });  
