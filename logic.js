@@ -418,7 +418,7 @@ $('#bkmkBtn').click(function(){
             console.log(newBkmkCards[key].storeId);
             
             var newCard = $(newBkmkCards[key].storeCard);
-            newCard.append("<button class='btn bookmarkRem' data-cardNo="+newBkmkCards[key].storeId+">X</button>");
+            newCard.prepend("<button class='btn bookmarkRem' data-cardNo="+newBkmkCards[key].storeId+">X</button>");
             $(".outputArea").append(newCard);
         }
     }
