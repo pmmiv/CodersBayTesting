@@ -410,7 +410,7 @@ $(document).on('click', '.bookmark', function () {
 
 $('#bkmkBtn').click(function(){
   $('.outputArea').empty();
-  database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
+  database.ref("/users/" + actUser.uid).on('value', function(dataSnapshot){
   console.log(dataSnapshot.val());
   var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
