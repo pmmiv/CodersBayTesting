@@ -63,12 +63,9 @@ $(".initSub").click(function(event) {
 
 // ========conversion table logic====
 function convert (a, b, c) {
-  console.log(a, b, c)
   var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
   var builtString = "https://neutrinoapi.com/convert?from-value="+a+"&from-type="+b+"&to-type="+c+"&userId=PMMIV&apiKey=lxAaqP7fkM6ZjKHg0fnvmkF192s1vmihtuGtY381Ls6xHsNs";
-  console.log(builtString);
   $.get(proxyUrl + builtString, function(response) {
-    console.log(response);
     var noOutput = response.result
     $('.results').text(a + " " + b + " = " + noOutput + " " + c);
   }).fail(function(error){
@@ -156,6 +153,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
     // prevent page refresh when submit is pressed
     event.preventDefault();  
 
+    actCards = [];
     // create initial array for recipe_ids
     recipeArray = [];
     // create initial array for titles of recipes
@@ -176,7 +174,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
       //input has been clicked and concat each diet together
       var restrict = $(this).val().trim();
       dietRequest += (dietString + restrict);
-      console.log("diet", dietRequest);
+      // console.log("diet", dietRequest);
      });
 
     //this is to create the filter for the specific allergy
@@ -186,7 +184,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
       //input has been clicked and concat each allergy together
       var restrict = $(this).val().trim();
       allergyRequest += (restrictString + restrict);
-      console.log("allergy", allergyRequest);
+      // console.log("allergy", allergyRequest);
     });
 
   //for each food search user input
@@ -196,11 +194,11 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
    $(".foodSearch").val('');
    //clears out each search
    $(".card").empty();
-   console.log("emptying out the card");
+   // console.log("emptying out the card");
     // grab user's input value and store in new variable
     var userInput = $(this).val().trim();
     //clears out click option of food search
-    console.log(userInput);
+    // console.log(userInput);
 
     //if the user input is not empty
     if(userInput!="")
@@ -211,7 +209,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
       // website url for ajax to pull from
       var myURL="https://api.yummly.com/v1/api/recipes?_app_id=87e47442&_app_key=11e4aadcc3dddb10fa26ae2968e1ce03&q=" + userInput + allergyRequest + dietRequest + "&maxResult=12";
 
-      console.log(myURL);
+      // console.log(myURL);
 
       //calling the ajax class to pass the url, and the
       //GET method to return the myObj object
@@ -223,7 +221,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
         {
 
           var newObj = myObj.matches;
-          console.log(newObj);
+          // console.log(newObj);
 
           // set the count value to the count property in the object
           count = newObj.length;
@@ -236,7 +234,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             ingredArray.push(newObj[i].ingredients);
             titleArray.push(newObj[i].recipeName);
           }
-          console.log(ingredArray);
+          // console.log(ingredArray);
 
           // create a for-loop to pull, resize, and reassign photos in the image array
           for (var j = 0; j < imageArray.length; j++) 
@@ -250,7 +248,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
           // };
 
 
-          console.log(imageArray);
+          // console.log(imageArray);
           $("#outputArea").on("click", "front")
           // initiate another for loop to display image properties
           for (var i = 0; i < imageArray.length; i++) 
@@ -298,12 +296,12 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             actCards.push(newCard[0].outerHTML);
           }
 
-        console.log('========below me is the actCard===========')
-        console.log(actCards);
+        // console.log('========below me is the actCard===========')
+        // console.log(actCards);
      
        
       });
-        console.log("end of input");
+        // console.log("end of input");
       }
       //clears out the user input
       $(".outputArea").empty();
@@ -405,3 +403,13 @@ $(document).on('click', '.bookmark', function () {
   } else {
     alert("Sign in to bookmark recipes!");
 }})
+
+$('#bkmkBtn').click(function(){
+  $('.outputArea').empty();
+  var newBkmkCards = [];
+  database.ref("/users/" + actUser.uid).on(function(snapshot){
+    console.log(snapshot);
+  })
+  // $("<div class=\"card\" style=\"width: 18rem;\"><button class=\"btn bookmark\" data-cardno=\"0\"><i class=\"fas fa-utensils\"></i></button><div class=\"front\"><img class=\"card-img-top\" src=\"https://lh3.googleusercontent.com/IhLP49GLhNDJ1x-agbz3k4E47a6Mj3YBLgFndC6sYgfD22lULxt_iQPvVHqrZmgHguLK0j1_C94LfXmuY58PKXE=s500-c\"><div class=\"card-body\"><h5 class=\"card-title\">6-Ingredient Orange Chicken</h5></div></div><div class=\"back\"><li class=\"item\">light soy sauce</li></div></div>");
+  $('.outputArea').append(newBkmkCard)
+})
