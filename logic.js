@@ -420,6 +420,7 @@ $('#bkmkBtn').click(function(){
             var newCard = $(newBkmkCards[key].storeCard);
             newCard.prepend("<button class='btn bookmarkRem' data-cardNo="+newBkmkCards[key].storeId+">X</button>");
             $(".outputArea").append(newCard);
+            $(".bookmark").css("display", "none");
         }
     }
   });  
