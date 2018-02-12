@@ -415,8 +415,8 @@ $('#bkmkBtn').click(function(){
   var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
         if (newBkmkCards.hasOwnProperty(key)) {
-          console.log(key.val().storeId);
-            // console.log(key + " -> " + newBkmkCards[key]);
+            console.log(newBkmkCards[key].val().storeId);
+          // console.log(key.val().storeId);
         }
     }
   });  
