@@ -418,10 +418,27 @@ $('#bkmkBtn').click(function(){
             console.log(newBkmkCards[key].storeId);
             
             var newCard = $(newBkmkCards[key].storeCard);
-            newCard.prepend("<button class='btn bookmarkRem' data-cardNo="+newBkmkCards[key].storeId+">X</button>");
+            newCard.prepend("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+">X</button>");
             $(".outputArea").append(newCard);
             $(".bookmark").css("display", "none");
         }
     }
   });  
   })
+
+function dbRemove (id) {
+  database.ref("/users/" + actUser.uid).remove(id);
+}
+
+$(document).on('click', '.bookmarkRem', function(){
+  database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
+  var newBkmkCards = dataSnapshot.val();
+  for (var key in newBkmkCards) {
+      if (newBkmkCards.hasOwnProperty(key)) {
+        if (newBkmkCards[key].storeId == this.dataset.id) {
+          dbRemove(this.dataset.id);
+        }
+      }
+    }
+  });
+})
