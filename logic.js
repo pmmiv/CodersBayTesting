@@ -400,8 +400,8 @@ $(document).on('click', '.bookmark', function () {
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
       storeCard: storeCard,
-      storeId: storeId,
-      success: "You successfully pushed something to an individual user's bookmark" 
+      storeId: storeId
+      // success: "You successfully pushed something to an individual user's bookmark" 
     })
     alert("bookmarked!");
   } else {
