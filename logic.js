@@ -435,9 +435,9 @@ $(document).on('click', '.bookmarkRem', function(){
   database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
     var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
-      var stanley = newBkmkCards[key];
+      // var stanley = key;
       if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
-        dbRemove(stanley);
+        dbRemove(key);
       }
     }
   });
