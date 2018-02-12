@@ -410,12 +410,13 @@ $(document).on('click', '.bookmark', function () {
 
 $('#bkmkBtn').click(function(){
   $('.outputArea').empty();
-  var newBkmkCards = [];
   database.ref("/users/" + actUser.uid).on('value', function(dataSnapshot){
-    // var cardsToBeMade = dataSnapshot.val().length()
-    console.log(dataSnapshot.val().length);
+  console.log(dataSnapshot.val());
+  var newBkmkCards = dataSnapshot.val();
+    for (var key in newBkmkCards) {
+        if (p.hasOwnProperty(key)) {
+            console.log(key + " -> " + newBkmkCards[key]);
+        }
+    }
   });  
   })
-  // $("<div class=\"card\" style=\"width: 18rem;\"><button class=\"btn bookmark\" data-cardno=\"0\"><i class=\"fas fa-utensils\"></i></button><div class=\"front\"><img class=\"card-img-top\" src=\"https://lh3.googleusercontent.com/IhLP49GLhNDJ1x-agbz3k4E47a6Mj3YBLgFndC6sYgfD22lULxt_iQPvVHqrZmgHguLK0j1_C94LfXmuY58PKXE=s500-c\"><div class=\"card-body\"><h5 class=\"card-title\">6-Ingredient Orange Chicken</h5></div></div><div class=\"back\"><li class=\"item\">light soy sauce</li></div></div>");
-  // $('.outputArea').append(newBkmkCard)
-// })
