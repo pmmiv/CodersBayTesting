@@ -414,7 +414,7 @@ $('#bkmkBtn').click(function(){
   console.log(dataSnapshot.val());
   var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
-        if (p.hasOwnProperty(key)) {
+        if (newBkmkCards.hasOwnProperty(key)) {
             console.log(key + " -> " + newBkmkCards[key]);
         }
     }
