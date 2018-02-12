@@ -440,4 +440,5 @@ $(document).on('click', '.bookmarkRem', function(){
       }
     }
   });
+  $('.outputArea').empty();
 })
