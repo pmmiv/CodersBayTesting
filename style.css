@@ -150,7 +150,7 @@ p
   padding: 8px;
 }
 
-.bookmark {
+.bookmark, .bookmarkRem {
 	margin-top: 5px;
 	margin-bottom: -40px;
 	padding: 4px 6px 1px 6px;
