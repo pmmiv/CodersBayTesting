@@ -433,11 +433,10 @@ function dbRemove (id) {
 $(document).on('click', '.bookmarkRem', function(){
   database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
   var newBkmkCards = dataSnapshot.val();
+  var thisId = this.dataset.id;
   for (var key in newBkmkCards) {
-      if (newBkmkCards.hasOwnProperty(key)) {
-        if (newBkmkCards[key].storeId == this.dataset.id) {
-          dbRemove(this.dataset.id);
-        }
+      if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == this.dataset.id) {
+          dbRemove(thisId);
       }
     }
   });
