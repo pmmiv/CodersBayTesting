@@ -431,14 +431,13 @@ function dbRemove (id) {
 }
 
 $(document).on('click', '.bookmarkRem', function(){
-  console.log(this.dataset.id);
   var thisId = this.dataset.id;
   database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
     var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
-      console.log(newBkmkCards[key]);
+      var stanley = newBkmkCards[key];
       if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
-        dbRemove(newBkmkCards[key]);
+        dbRemove(stanley);
       }
     }
   });
