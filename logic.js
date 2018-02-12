@@ -407,7 +407,7 @@ $(document).on('click', '.bookmark', function () {
 $('#bkmkBtn').click(function(){
   $('.outputArea').empty();
   var newBkmkCards = [];
-  database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
+  database.ref("/users/" + actUser.uid).on('value', function(dataSnapshot){
     // console.log(dataSnapshot.child().val().storeCard);
     console.log(dataSnapshot.child());
   });  
