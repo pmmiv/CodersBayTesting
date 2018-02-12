@@ -437,7 +437,7 @@ $(document).on('click', '.bookmarkRem', function(){
   var newBkmkCards = dataSnapshot.val();
   for (var key in newBkmkCards) {
       if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
-          dbRemove(thisId);
+          dbRemove(newBkmkCards[key]);
       }
     }
   });
