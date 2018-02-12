@@ -427,7 +427,7 @@ $('#bkmkBtn').click(function(){
   })
 
 function dbRemove (id) {
-  database.ref("/users/" + actUser.uid).remove(id);
+  database.ref("/users/" + actUser.uid + "/"+ id).remove();
 }
 
 $(document).on('click', '.bookmarkRem', function(){
@@ -435,7 +435,6 @@ $(document).on('click', '.bookmarkRem', function(){
   database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
     var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
-      // var stanley = key;
       if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
         dbRemove(key);
       }
