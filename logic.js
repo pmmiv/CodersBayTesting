@@ -410,7 +410,7 @@ $(document).on('click', '.bookmark', function () {
 
 $('#bkmkBtn').click(function(){
   $('.outputArea').empty();
-  database.ref("/users/" + actUser.uid).on('value', function(dataSnapshot){
+  database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
   console.log(dataSnapshot.val());
   var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
@@ -418,6 +418,7 @@ $('#bkmkBtn').click(function(){
             console.log(newBkmkCards[key].storeId);
             
             var newCard = $(newBkmkCards[key].storeCard);
+            newCard.append("<button class='btn bookmarkRem' data-cardNo="+i+">X</button>");
             $(".outputArea").append(newCard);
         }
     }
