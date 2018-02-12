@@ -435,6 +435,7 @@ $(document).on('click', '.bookmarkRem', function(){
   var thisId = this.dataset.id;
   database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
   var newBkmkCards = dataSnapshot.val();
+  console.log(newBkmkCards[key]);
   for (var key in newBkmkCards) {
       if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
           dbRemove(newBkmkCards[key]);
