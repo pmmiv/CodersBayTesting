@@ -294,7 +294,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             newCard.append(cardBack);
             // newContainer.append(newCard);
             $(".outputArea").append(newCard);
-            console.log(newCard);
+            // console.log(newCard);
             actCards.push(newCard[0].outerHTML);
           }
 
@@ -416,7 +416,8 @@ $('#bkmkBtn').click(function(){
     for (var key in newBkmkCards) {
         if (newBkmkCards.hasOwnProperty(key)) {
             console.log(newBkmkCards[key].storeId);
-          // console.log(key.val().storeId);
+            
+            var newCard = $(newBkmkCards[key].storeCard);
         }
     }
   });  
