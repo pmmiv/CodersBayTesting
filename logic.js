@@ -415,7 +415,7 @@ $('#bkmkBtn').click(function(){
   var newBkmkCards = dataSnapshot.val();
     for (var key in newBkmkCards) {
         if (newBkmkCards.hasOwnProperty(key)) {
-            console.log(newBkmkCards[key].val().storeId);
+            console.log(newBkmkCards[key].storeId);
           // console.log(key.val().storeId);
         }
     }
