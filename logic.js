@@ -219,9 +219,9 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
         //once myObj object returns, pass in myObj to the next function
         }).then(function(myObj)
         {
-
+          console.log(myObj);
           var newObj = myObj.matches;
-          // console.log(newObj);
+          console.log(newObj);
 
           // set the count value to the count property in the object
           count = newObj.length;
@@ -281,7 +281,9 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             
             cardBody.append(cardTitle);
 
-            newCard.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>")
+            cardBody.attr("data-id", recipeArray[i]);
+
+            newCard.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>");
             
             cardFront.append(newImage);
             
@@ -292,7 +294,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event)
             newCard.append(cardBack);
             // newContainer.append(newCard);
             $(".outputArea").append(newCard);
-            // console.log(newCard);
+            console.log(newCard);
             actCards.push(newCard[0].outerHTML);
           }
 
@@ -394,9 +396,11 @@ $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
   // console.log(this.dataset.cardno);
   var storeCard = actCards[this.dataset.cardno];
+  var storeId = recipeArray[this.dataset.cardno];
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
       storeCard: storeCard,
+      storeId: storeId,
       success: "You successfully pushed something to an individual user's bookmark" 
     })
     alert("bookmarked!");
