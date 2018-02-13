@@ -261,7 +261,6 @@ $("#inputBtn, .inputBtn2").on("click", function(event) {
 
           cardBack.append(cardList);
 
-          //not sure if I use this
           cardBody.attr("data-id", idArray[i]);
 
           cardBody.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>");
@@ -411,6 +410,7 @@ $('#bkmkBtn').click(function(){
             var newCard = $(newBkmkCards[key].storeCard);
             // newCard.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
             $(".outputArea").append(newCard);
+            $(".bookmark").text("<i class='fas fa-times'></i>")
             $(".bookmark").attr("data-id", newBkmkCards[key].storeId);
         }
     }
@@ -421,7 +421,7 @@ function dbRemove (id) {
   database.ref("/users/" + actUser.uid + "/"+ id).remove();
 }
 
-$(document).on('click', '.bookmarkRem', function(){
+$(document).on('click', '.bookmark', function(){
   var thisId = this.dataset.id;
   database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
     var newBkmkCards = dataSnapshot.val();
