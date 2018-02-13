@@ -97,6 +97,7 @@ $('.convertSub').click(function(event) {
 // 387^Lacto-ovo vegetarian
 
 //creates an array of recipe id's that matches with the user input
+var idArray = [];
 var recipeArray = [];
 // create initial array for titles of recipes
 var titleArray = [];
@@ -149,6 +150,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event) {
   actCards = [];
   // create initial array for recipe_ids
   recipeArray = [];
+  idArray = [];
   // create initial array for titles of recipes
   titleArray = [];
   // create initial array for image_urls
@@ -216,6 +218,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event) {
         // initiate a for loop to store recipe_id property and image_url property into their arrays
         for (var i = 0; i < count; i++) {
           recipeArray.push(recipeSource + newObj[i].id);
+          idArray.push(newObj[i].id);
           imageArray.push(newObj[i].imageUrlsBySize[90]);
           ingredArray.push(newObj[i].ingredients);
           titleArray.push(newObj[i].recipeName);
@@ -259,7 +262,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event) {
           cardBack.append(cardList);
 
           //not sure if I use this
-          cardBody.attr("data-id", recipeArray[i]);
+          cardBody.attr("data-id", idArray[i]);
 
           cardBody.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>");
 
@@ -384,7 +387,7 @@ $(document).on('click', '.bookmark', function () {
   // event.preventDefault();
   // console.log(this.dataset.cardno);
   var storeCard = actCards[this.dataset.cardno];
-  var storeId = recipeArray[this.dataset.cardno];
+  var storeId = idArray[this.dataset.cardno];
   if (uSignIn) {
     database.ref("/users/" + actUser.uid).push({
       storeCard: storeCard,
