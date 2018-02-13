@@ -27,6 +27,8 @@ var actUser = {};
 
 var actCards = [];
 
+var lookBookmark = false;
+
 boxEnterTimeline
   .add({
     targets: "#title",
@@ -146,6 +148,7 @@ $(".foodOptions").on("click", ".diet", function(){
 $("#inputBtn, .inputBtn2").on("click", function(event) {
   // prevent page refresh when submit is pressed
   event.preventDefault();
+  lookBookmark = false;
 
   actCards = [];
   // create initial array for recipe_ids
@@ -383,22 +386,34 @@ $('#signOut').click(function() {
 
 // bookmarking cards
 $(document).on('click', '.bookmark', function () {
-  // event.preventDefault();
-  // console.log(this.dataset.cardno);
-  var storeCard = actCards[this.dataset.cardno];
-  var storeId = idArray[this.dataset.cardno];
-  if (uSignIn) {
-    database.ref("/users/" + actUser.uid).push({
-      storeCard: storeCard,
-      storeId: storeId
-      // success: "You successfully pushed something to an individual user's bookmark" 
-    })
-    alert("bookmarked!");
+  if (lookBookmark){
+    var thisId = this.dataset.id;
+    database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
+      var newBkmkCards = dataSnapshot.val();
+      for (var key in newBkmkCards) {
+        if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
+          dbRemove(key);
+        }
+      }
+    });
+    $('.outputArea').empty();
   } else {
-    alert("Sign in to bookmark recipes!");
-}})
+    var storeCard = actCards[this.dataset.cardno];
+    var storeId = idArray[this.dataset.cardno];
+    if (uSignIn) {
+      database.ref("/users/" + actUser.uid).push({
+        storeCard: storeCard,
+        storeId: storeId
+      })
+      alert("bookmarked!");
+    } else {
+      alert("Sign in to bookmark recipes!");
+    }
+  }
+})
 
 $('#bkmkBtn').click(function(){
+  lookBookmark = true;
   $('.outputArea').empty();
   database.ref("/users/" + actUser.uid).on('value', function(dataSnapshot){
   console.log(dataSnapshot.val());
@@ -420,16 +435,3 @@ $('#bkmkBtn').click(function(){
 function dbRemove (id) {
   database.ref("/users/" + actUser.uid + "/"+ id).remove();
 }
-
-$(document).on('click', '.bookmark', function(){
-  var thisId = this.dataset.id;
-  database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
-    var newBkmkCards = dataSnapshot.val();
-    for (var key in newBkmkCards) {
-      if (newBkmkCards.hasOwnProperty(key) && newBkmkCards[key].storeId == thisId) {
-        dbRemove(key);
-      }
-    }
-  });
-  $('.outputArea').empty();
-})
