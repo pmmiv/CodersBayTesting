@@ -410,7 +410,7 @@ $('#bkmkBtn').click(function(){
             
             var newCard = $("<div class='cardContainer'>");
             var cardBody = $(newBkmkCards[key].storeCard);
-            cardBody.prepend("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
+            cardBody.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
             newCard.append(cardBody);
             $(".outputArea").append(newCard);
             $(".bookmark").css("display", "none");
