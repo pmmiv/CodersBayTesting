@@ -426,7 +426,7 @@ $('#bkmkBtn').click(function(){
             var newCard = $(newBkmkCards[key].storeCard);
             // newCard.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
             $(".outputArea").append(newCard);
-            $(".bookmark").html("<i class="fas fa-times"></i>")
+            $(".bookmark").html("<i class='fas fa-times'></i>");
             // $(".bookmark").attr("data-id", newBkmkCards[key].storeId);
         }
     }
