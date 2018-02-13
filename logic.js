@@ -334,12 +334,12 @@ initApp = function() {
     if (user) {
       // show sign out
       $('#signInBtn').css("display", "none");
-      $('#bkmkBtn').css("display", "none");
+      $('#bkmkBtn').css("display", "inline");
       $('#signOut').css("display", "inline");
     } else {
       // show sign in
       $('#signOut').css("display", "none");
-      $('#bkmkBtn').css("display", "inline");
+      $('#bkmkBtn').css("display", "none");
       $('#signInBtn').css("display", "inline");
     }
     actUser = user;
