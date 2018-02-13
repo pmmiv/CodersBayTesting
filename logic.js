@@ -266,7 +266,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event) {
 
           cardBody.attr("data-id", idArray[i]);
 
-          cardBody.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>");
+          cardBody.append("<button class='btn bookmark' data-cardNo="+i+" data-id="+idArray[i]+"><i class='fas fa-utensils'></i></button>");
 
           cardTitle.text(titleArray[i]);
 
@@ -388,6 +388,7 @@ $('#signOut').click(function() {
 $(document).on('click', '.bookmark', function () {
   if (lookBookmark){
     var thisId = this.dataset.id;
+    console.log(thisId)
     database.ref("/users/" + actUser.uid).once('value').then(function(dataSnapshot){
       var newBkmkCards = dataSnapshot.val();
       for (var key in newBkmkCards) {
@@ -425,8 +426,8 @@ $('#bkmkBtn').click(function(){
             var newCard = $(newBkmkCards[key].storeCard);
             // newCard.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
             $(".outputArea").append(newCard);
-            $(".bookmark").text("<i class='fas fa-times'></i>")
-            $(".bookmark").attr("data-id", newBkmkCards[key].storeId);
+            $(".bookmark").text("X")
+            // $(".bookmark").attr("data-id", newBkmkCards[key].storeId);
         }
     }
   });  
