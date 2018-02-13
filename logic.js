@@ -261,7 +261,7 @@ $("#inputBtn, .inputBtn2").on("click", function(event) {
           //not sure if I use this
           cardBody.attr("data-id", recipeArray[i]);
 
-          newCard.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>");
+          cardBody.append("<button class='btn bookmark' data-cardNo="+i+"><i class='fas fa-utensils'></i></button>");
 
           cardTitle.text(titleArray[i]);
 
