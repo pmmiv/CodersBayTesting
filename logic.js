@@ -408,10 +408,8 @@ $('#bkmkBtn').click(function(){
         if (newBkmkCards.hasOwnProperty(key)) {
             console.log(newBkmkCards[key].storeId);
             
-            var newCard = $("<div class='cardContainer'>");
-            var cardBody = $(newBkmkCards[key].storeCard);
-            cardBody.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
-            newCard.append(cardBody);
+            var newCard = $(newBkmkCards[key].storeCard);
+            newCard.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
             $(".outputArea").append(newCard);
             $(".bookmark").css("display", "none");
         }
