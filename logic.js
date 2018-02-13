@@ -409,9 +409,9 @@ $('#bkmkBtn').click(function(){
             console.log(newBkmkCards[key].storeId);
             
             var newCard = $(newBkmkCards[key].storeCard);
-            newCard.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
+            // newCard.append("<button class='btn bookmarkRem' data-id="+newBkmkCards[key].storeId+"><i class='fas fa-times'></i></button>");
             $(".outputArea").append(newCard);
-            $(".bookmark").css("display", "none");
+            $(".bookmark").attr("data-id", newBkmkCards[key].storeId);
         }
     }
   });  
